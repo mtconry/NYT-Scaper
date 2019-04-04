@@ -48,7 +48,7 @@ const index = require("./routes/index"),
 app.use("/", index);
 app.use("/articles", articles);
 app.use("/notes", notes);
-app.use("/scrape", scrape);
+// app.use("/scrape", scrape);
 
 // Launch Server
 const PORT = process.env.PORT || 3000;
