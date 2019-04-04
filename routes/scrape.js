@@ -1,16 +1,16 @@
 // Dependencies
-const express = require("express"),
-    cheerio = require("cheerio"),
-    rp = require("request-promise"), 
+const express = require('express'),
+    cheerio = require('cheerio'),
+    rp = require('request-promise'), 
     router = express.Router(),
-    db = require("../models");
+    db = require('../models');
 
 // Get route to scrape new articles
-router.get("/newArticles", (req, res)=>{
+router.get("/newArticles", function(req, res){
     //options for object (request - promise)
     const options = {
         uri: "https://www.nytimes.com/section/us",
-        transform: (body) => {
+        transform: function(body){
             return cheerio.load(body);
         }
     };
@@ -22,16 +22,16 @@ router.get("/newArticles", (req, res)=>{
             let savedHeadLines = savedArticles.map(article => article.headline);
             // Request promise with options object
             rp(options)
-            .then(($) =>{
+            .then(function($){
                 let newArticleArr = [];
                 // Iterating over returned articles, and creating a newArticle object form the data
-                $("#latest-panel article.story.theme-summary").each((i, element)=>{
+                $('#latest-panel article.story.theme-summary').each((i, element)=>{
                     let newArticle = new db.Article({
-                        storyUrl: $(element).find(".story-body>.story-link").attr("href"),
-                        headline: $(element).find("h2.headline").text().trim(),
-                        summary: $(element).find("p.summary").text().trim(),
-                        imgUrl: $(element).find("img").attr("src"),
-                        byLine: $(element).find("p.byline").text().trim()
+                        storyUrl: $(element).find('.story-body>.story-link').attr('href'),
+                        headline: $(element).find('h2.headline').text().trim(),
+                        summary: $(element).find('p.summary').text().trim(),
+                        imgUrl: $(element).find('img').attr('src'),
+                        byLine: $(element).find('p.byline').text().trim()
                     });
                     // Making sure newArticle contains storyURL
                     if (newArticle.storyUrl){

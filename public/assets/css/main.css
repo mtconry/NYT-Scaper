@@ -1,0 +1,25 @@
+:root {
+    --header-height: 30em;
+}
+
+body {
+    background-image: url('../img/whitebricks.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 200%;
+    background-position: center center;
+    font-size: 0;
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+}
+
+button:focus {
+    outline: none;
+}
+
+.header {
+    background-image: url('../img/header.jpeg');
+    background-repeat: no-repeat;
+    
+}

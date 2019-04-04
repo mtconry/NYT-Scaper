@@ -1,26 +1,26 @@
 // Dependencies
-const express = require("express"),
+const express = require('express'),
     router = express.Router(),
-    db = require("../models");
+    db = require('../models');
 
-// Get route to update "saved" boolean to true
-router.get("/save/:id", (req, res) => {
+// Get route to update 'saved' boolean to true
+router.get('/save/:id', (req, res) => {
     db.Article
         .update({_id: req.params.id},{saved: true})
-        .then(result => res.redirect("/"))
+        .then(result => res.redirect('/'))
         .catch(err => res.json(err));
 });
 
 // Get route to render savedArticles.handlebars and populate with saved articles
-router.get("/viewSaved", (req, res) => {
+router.get('/viewSaved', (req, res) => {
     db.Article
         .find({})
-        .then(result => res.render("savedArticles", {articles:result}))
+        .then(result => res.render('savedArticles', {articles:result}))
         .catch(err => res.json(err));
 });
 
 // Delete route to remove and article 
-router.delete("/deleteArticle/:id", (req, res) =>{
+router.delete('/deleteArticle/:id', (req, res) =>{
     db.Article
         .remove({_id: req.params.id})
         .then(result => res.json(result))

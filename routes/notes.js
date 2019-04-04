@@ -1,19 +1,19 @@
 // Dependencies
-const express = require("express"),
+const express = require('express'),
     router = express.Router(),
-    db = require("../models");
+    db = require('../models');
 
 // Retrieve all notes for an article (get route)
-router.get("/getNotes/:id", (req, res) =>{
+router.get('/getNotes/:id', function(req, res) {
     db.Article
         .findOne({_id: req.params.id})
-        .populate("notes")
+        .populate('notes')
         .then(results => res.json(results))
         .catch(err => res.json(err));
 });
 
 // Return single note (get route)
-router.get("/getSingleNote/:id", (req, res) =>{
+router.get('/getSingleNote/:id', function(req, res) {
     db.Note
         .findOne({_id: req.params.id})
         .then(results => res.json(results))
@@ -21,7 +21,7 @@ router.get("/getSingleNote/:id", (req, res) =>{
 });
 
 // Create new note in the database (post route)
-router.post("/createNote", (req, res)=>{
+router.post('/createNote', function(req, res){
     let { title, body, articleId } = req.body;
     let note = {
         title,
@@ -32,14 +32,14 @@ router.post("/createNote", (req, res)=>{
         .then( result => {
             db.Article
                 .findOneAndUpdate({_id: articleId}, {$push:{notes: result._id}},{new:true}) //saving reference to note
-                .then(data => res.json(result))
-                .catch(err => res.json(err));
+                .then( data => res.json(result))
+                .catch( err => res.json(err));
         })
         .catch(err => res.json(err));
 });
 
 // Delete a note (post route)
-router.post("/deleteNote", (req, res) =>{
+router.post('/deleteNote', (req, res) =>{
     let {articleId, noteId} = req.body;
     db.Note
         .remove({_id: noteId})
